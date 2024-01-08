@@ -1,3 +1,3 @@
-.container {
-	background-color: #f2f4f8;
+.main {
+	background-image: linear-gradient(var(--dark-blue) 200px, var(--gray) 200px);
 }

@@ -5,8 +5,10 @@ import styles from "./header.module.css";
 
 function Header() {
 	return (
-		<header className={styles.container}>
-			<div className={styles.logo}>
+		<header
+			className={`text-white bg-blue-950 p-4 flex justify-between ${styles.container}`}
+		>
+			<div className="flex items-center gap-2">
 				<Image
 					src={logo}
 					width={24}
@@ -14,11 +16,11 @@ function Header() {
 					alt="Picture of the logo"
 					priority
 				/>
-				<h1 className={styles["logo-title"]}>
-					SUA <span className={styles["logo-span"]}>LOGO</span>
+				<h1 className="text-2xl">
+					SUA <span className="text-yellow-500 font-black">LOGO</span>
 				</h1>
 			</div>
-			<div className={styles.user}>
+			<div className="flex items-center gap-4">
 				<p className={styles["user-letter"]}>N</p>
 				<p>Nome do usuário aqui</p>
 				<Image

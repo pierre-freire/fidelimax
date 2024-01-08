@@ -1,29 +1,5 @@
 .container {
-	color: var(--font-color);
 	background-color: var(--dark-blue);
-	padding: 16px;
-	display: flex;
-	justify-content: space-between;
-}
-
-.logo {
-	display: flex;
-	gap: 16px;
-}
-
-.logo-title {
-	font-size: var(--normal-title);
-}
-
-.logo-span {
-	color: var(--yellow);
-	font-weight: bolder;
-}
-
-.user {
-	display: flex;
-	gap: 8px;
-	align-items: center;
 }
 
 .user-letter {
