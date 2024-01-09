@@ -2,25 +2,38 @@
 
 import { useState } from "react";
 
-function Select() {
-	const [content, setContent] = useState("");
+interface ISelect {
+	answerValue: string;
+	content: string;
+	itens: [
+		{
+			description: string;
+			value: number;
+		}
+	];
+	mandatory?: boolean;
+}
+
+function Select({ answerValue = "", content, itens, mandatory }: ISelect) {
+	const [value, setValue] = useState(answerValue);
 
 	return (
 		<div className="w-full">
 			<select
 				className="outline outline-offset-2 outline-1 rounded-md p-3 cursor-pointer w-full"
-				value={content}
-				onChange={(e) => setContent(e.target.value)}
+				value={value}
+				onChange={(e) => setValue(e.target.value)}
 			>
 				<option value="" disabled hidden>
-					Qual loja você frequenta?
+					{content}
 				</option>
-				<option value="loja01" className="p-4">
-					Loja 1
-				</option>
-				<option value="loja02">Loja 2</option>
-				<option value="loja03">Loja 3</option>
-				<option value="loja04">Loja 4</option>
+				{itens.map((elm, i) => {
+					return (
+						<option value={elm.value} className="p-4" key={i}>
+							{elm.description}
+						</option>
+					);
+				})}
 			</select>
 		</div>
 	);

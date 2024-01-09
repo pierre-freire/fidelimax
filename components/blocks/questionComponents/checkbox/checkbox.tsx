@@ -3,6 +3,13 @@
 import { useState, useId } from "react";
 import { checkIfIncludes, returnHandledArray } from "@/util/util";
 
+interface ICheckbox {
+	content: string;
+	answerValue: number[];
+	itens: [{ value: number; description: string }];
+	mandatory?: boolean;
+}
+
 const items = [
 	{ label: "OPC 1", value: "opc_01" },
 	{ label: "OPC 2", value: "opc_02" },
@@ -16,28 +23,28 @@ const items = [
 	{ label: "OPC 10", value: "opc_10" },
 ];
 
-function Checkbox() {
-	const [content, setContent] = useState<string[]>([]);
+function Checkbox({ content, answerValue, itens, mandatory }: ICheckbox) {
+	const [values, setValues] = useState<number[]>(answerValue);
 
-	function isChecked(arg: string) {
-		return checkIfIncludes(content, arg);
+	function isChecked(arg: number) {
+		return checkIfIncludes(values, arg);
 	}
 
-	function handleContent(arg: string) {
-		setContent(returnHandledArray(content, arg));
+	function handleValues(arg: number) {
+		setValues(returnHandledArray(values, arg));
 	}
 
 	return (
 		<li>
-			<h3 className="mb-2 text-xl">Pergunta de multipla escolha</h3>
+			<h3 className="mb-2 text-xl">{content}</h3>
 			<ul>
-				{items.map((elm: { label: string; value: string }, i) => {
+				{itens.map((elm: { description: string; value: number }, i) => {
 					return (
 						<CheckElement
 							key={i}
 							elm={elm}
 							isChecked={isChecked}
-							handleContent={handleContent}
+							handleValues={handleValues}
 						/>
 					);
 				})}
@@ -47,12 +54,12 @@ function Checkbox() {
 }
 
 interface ICheckElement {
-	elm: { label: string; value: string };
+	elm: { description: string; value: number };
 	isChecked: Function;
-	handleContent: Function;
+	handleValues: Function;
 }
 
-function CheckElement({ elm, isChecked, handleContent }: ICheckElement) {
+function CheckElement({ elm, isChecked, handleValues }: ICheckElement) {
 	const elementId = useId();
 
 	return (
@@ -62,10 +69,10 @@ function CheckElement({ elm, isChecked, handleContent }: ICheckElement) {
 				type="checkbox"
 				className="accent-blue-950 cursor-pointer"
 				checked={isChecked(elm.value)}
-				onChange={() => handleContent(elm.value)}
+				onChange={() => handleValues(elm.value)}
 			/>
 			<label htmlFor={elementId} className="pl-2 cursor-pointer select-none">
-				{elm.label}
+				{elm.description}
 			</label>
 		</div>
 	);
