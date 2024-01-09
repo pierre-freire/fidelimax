@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useId } from "react";
+import { checkIfIncludes, returnHandledArray } from "@/util/util";
 
 const items = [
 	{ label: "OPC 1", value: "opc_01" },
@@ -19,41 +20,53 @@ function Checkbox() {
 	const [content, setContent] = useState<string[]>([]);
 
 	function isChecked(arg: string) {
-		return content.includes(arg);
+		return checkIfIncludes(content, arg);
 	}
 
 	function handleContent(arg: string) {
-		if (isChecked(arg)) {
-			const newArray = content.filter((item) => {
-				return item !== arg;
-			});
-
-			setContent(newArray);
-		} else {
-			const newArray = [...content, arg];
-
-			setContent(newArray);
-		}
+		setContent(returnHandledArray(content, arg));
 	}
 
 	return (
 		<li>
 			<h3 className="mb-2 text-xl">Pergunta de multipla escolha</h3>
 			<ul>
-				{items.map((elm, i) => {
+				{items.map((elm: { label: string; value: string }, i) => {
 					return (
-						<li key={i}>
-							<input
-								type="checkbox"
-								className="mr-2 accent-blue-950"
-								checked={isChecked(elm.value)}
-								onChange={() => handleContent(elm.value)}
-							/>
-							<label>{elm.label}</label>
-						</li>
+						<CheckElement
+							key={i}
+							elm={elm}
+							isChecked={isChecked}
+							handleContent={handleContent}
+						/>
 					);
 				})}
 			</ul>
+		</li>
+	);
+}
+
+interface ICheckElement {
+	elm: { label: string; value: string };
+	isChecked: Function;
+	handleContent: Function;
+}
+
+function CheckElement({ elm, isChecked, handleContent }: ICheckElement) {
+	const elementId = useId();
+
+	return (
+		<li className="my-4">
+			<input
+				id={elementId}
+				type="checkbox"
+				className="accent-blue-950 cursor-pointer"
+				checked={isChecked(elm.value)}
+				onChange={() => handleContent(elm.value)}
+			/>
+			<label htmlFor={elementId} className="pl-2 cursor-pointer select-none">
+				{elm.label}
+			</label>
 		</li>
 	);
 }

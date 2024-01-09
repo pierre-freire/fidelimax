@@ -33,7 +33,7 @@ function MultiRadio() {
 								onChange={(e) => handleChoice(elm)}
 								className=" cursor-pointer"
 							/>
-							<p className="mt-2">{i + 1}</p>
+							<p className="mt-2 select-none">{i + 1}</p>
 						</li>
 					);
 				})}

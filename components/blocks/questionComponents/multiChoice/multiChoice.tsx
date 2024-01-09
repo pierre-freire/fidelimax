@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { checkIfIncludes, returnHandledArray } from "@/util/util";
 import styles from "./multiChoice.module.css";
 
 const items = [
@@ -18,21 +19,11 @@ function MultiChoice() {
 	const [content, setContent] = useState<string[]>([]);
 
 	function isChecked(arg: string) {
-		return content.includes(arg);
+		return checkIfIncludes(content, arg);
 	}
 
 	function handleContent(arg: string) {
-		if (isChecked(arg)) {
-			const newArray = content.filter((item) => {
-				return item !== arg;
-			});
-
-			setContent(newArray);
-		} else {
-			const newArray = [...content, arg];
-
-			setContent(newArray);
-		}
+		setContent(returnHandledArray(content, arg));
 	}
 
 	return (
@@ -43,7 +34,7 @@ function MultiChoice() {
 					return (
 						<li
 							key={i}
-							className={`py-2 px-4 border-solid border-2 border-slate-200 rounded-full cursor-pointer ${
+							className={`py-2 px-4 border-solid border-2 border-slate-200 rounded-full cursor-pointer select-none ${
 								isChecked(elm.value) ? styles.selected : ""
 							}`}
 							onClick={() => handleContent(elm.value)}
