@@ -27,7 +27,7 @@ function MultiChoice() {
 	}
 
 	return (
-		<li>
+		<div>
 			<h3 className="mb-2 text-xl">Pergunta de múltipla escolha</h3>
 			<ul className="flex gap-2 flex-wrap my-2">
 				{items.map((elm, i) => {
@@ -44,7 +44,7 @@ function MultiChoice() {
 					);
 				})}
 			</ul>
-		</li>
+		</div>
 	);
 }
 

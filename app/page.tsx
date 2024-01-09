@@ -9,9 +9,9 @@ export default function Home() {
 			<Header />
 			<main className={`px-4 py-8 w-full ${styles.main}`}>
 				<p className="text-sm text-slate-300">Pesquisa de Satisfação</p>
-				<div className="w-full flex justify-center">
+				<section className="w-full flex justify-center">
 					<Blocks />
-				</div>
+				</section>
 			</main>
 		</div>
 	);

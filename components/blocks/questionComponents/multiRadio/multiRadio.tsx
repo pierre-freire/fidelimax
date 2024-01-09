@@ -11,7 +11,7 @@ function MultiRadio() {
 	}
 
 	return (
-		<li>
+		<div>
 			<h3 className="text-slate-700 text-2xl font-extrabold mb-2">
 				Título da pergunta deve ficar aqui
 			</h3>
@@ -38,7 +38,7 @@ function MultiRadio() {
 					);
 				})}
 			</ul>
-		</li>
+		</div>
 	);
 }
 

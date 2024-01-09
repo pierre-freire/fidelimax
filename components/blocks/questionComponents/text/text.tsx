@@ -6,7 +6,7 @@ function Text() {
 	const [content, setContent] = useState("");
 
 	return (
-		<li>
+		<div>
 			<h3 className="text-slate-700 text-xl mb-2">
 				Descreva o motivo de sua avaliação
 			</h3>
@@ -16,7 +16,7 @@ function Text() {
 				value={content}
 				onChange={(e) => setContent(e.target.value)}
 			/>
-		</li>
+		</div>
 	);
 }
 

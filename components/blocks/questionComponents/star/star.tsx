@@ -8,7 +8,7 @@ import Image from "next/image";
 function Star() {
 	const [value, setValue] = useState<number>(0);
 	return (
-		<li>
+		<div>
 			<h3 className="text-slate-700 text-2xl font-extrabold mb-2">
 				Título da pergunta deve ficar aqui
 			</h3>
@@ -34,7 +34,7 @@ function Star() {
 					);
 				})}
 			</ul>
-		</li>
+		</div>
 	);
 }
 

@@ -6,7 +6,7 @@ function Select() {
 	const [content, setContent] = useState("");
 
 	return (
-		<li className="w-full">
+		<div className="w-full">
 			<select
 				className="outline outline-offset-2 outline-1 rounded-md p-3 cursor-pointer w-full"
 				value={content}
@@ -22,7 +22,7 @@ function Select() {
 				<option value="loja03">Loja 3</option>
 				<option value="loja04">Loja 4</option>
 			</select>
-		</li>
+		</div>
 	);
 }
 

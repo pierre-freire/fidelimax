@@ -56,7 +56,7 @@ function CheckElement({ elm, isChecked, handleContent }: ICheckElement) {
 	const elementId = useId();
 
 	return (
-		<li className="my-4">
+		<div className="my-4">
 			<input
 				id={elementId}
 				type="checkbox"
@@ -67,7 +67,7 @@ function CheckElement({ elm, isChecked, handleContent }: ICheckElement) {
 			<label htmlFor={elementId} className="pl-2 cursor-pointer select-none">
 				{elm.label}
 			</label>
-		</li>
+		</div>
 	);
 }
 
