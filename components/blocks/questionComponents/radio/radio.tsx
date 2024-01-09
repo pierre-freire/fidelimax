@@ -5,6 +5,7 @@ import { useState } from "react";
 interface IRadio {
 	content: string;
 	answerValue: number | boolean;
+	index: number;
 	mandatory?: boolean;
 	multi?: boolean;
 }

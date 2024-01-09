@@ -5,6 +5,7 @@ import { useState } from "react";
 interface IText {
 	answerValue?: string;
 	content: string;
+	index: number;
 	mandatory?: boolean;
 }
 

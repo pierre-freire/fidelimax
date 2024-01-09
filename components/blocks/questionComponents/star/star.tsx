@@ -8,11 +8,24 @@ import Image from "next/image";
 interface IStar {
 	answerValue: number;
 	content: string;
+	index: number;
+	onChangeAnswer: Function;
 	mandatory?: boolean;
 }
 
-function Star({ answerValue, content, mandatory }: IStar) {
+function Star({
+	answerValue,
+	content,
+	index,
+	onChangeAnswer,
+	mandatory,
+}: IStar) {
 	const [value, setValue] = useState<number>(answerValue);
+
+	function changeAnswer(numberOfStars: number) {
+		setValue(numberOfStars);
+		onChangeAnswer(index, numberOfStars);
+	}
 	return (
 		<div>
 			<h3 className="text-slate-700 text-2xl font-extrabold mb-2">
@@ -25,7 +38,7 @@ function Star({ answerValue, content, mandatory }: IStar) {
 						<li
 							key={i}
 							className="cursor-pointer"
-							onClick={() => setValue(elm)}
+							onClick={() => changeAnswer(elm)}
 						>
 							<Image
 								src={i >= value ? GrayStar : GoldStar}

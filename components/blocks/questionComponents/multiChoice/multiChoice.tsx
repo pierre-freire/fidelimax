@@ -7,6 +7,7 @@ import styles from "./multiChoice.module.css";
 interface IMultiChoice {
 	content: string;
 	answerValue: number[];
+	index: number;
 	itens: [{ value: number; description: string }];
 	mandatory?: boolean;
 }

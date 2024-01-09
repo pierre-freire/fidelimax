@@ -5,6 +5,7 @@ import { useState } from "react";
 interface ISelect {
 	answerValue: string;
 	content: string;
+	index: number;
 	itens: [
 		{
 			description: string;
