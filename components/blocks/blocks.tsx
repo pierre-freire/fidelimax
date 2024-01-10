@@ -73,12 +73,10 @@ function Blocks() {
 		const errors: [{ questionIndex: number; message: string }] = questions.map(
 			(elm, index) => {
 				if (
-					(elm.mandatory === true &&
-						(elm.answerValue === "" ||
-							elm.answerValue === undefined ||
-							(Array.isArray(elm.answerValue) &&
-								elm.answerValue.length === 0))) ||
-					true
+					elm.mandatory === true &&
+					(elm.answerValue === "" ||
+						elm.answerValue === undefined ||
+						(Array.isArray(elm.answerValue) && elm.answerValue.length === 0))
 				) {
 					return { questionIndex: index, message: "Campo obrigatório!" };
 				}
