@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import ErrorMessage from "../errorMessage";
 
 interface ISelect {
 	answerValue: string;
@@ -13,7 +14,7 @@ interface ISelect {
 			value: number;
 		}
 	];
-	mandatory?: boolean;
+	errors?: { questionIndex: number; message: string }[];
 }
 
 function Select({
@@ -22,13 +23,19 @@ function Select({
 	itens,
 	index,
 	onChangeAnswer,
-	mandatory,
+	errors,
 }: ISelect) {
 	const [value, setValue] = useState<string>(answerValue);
 
 	function handleChoice(option: string) {
 		setValue(option);
 		onChangeAnswer(index, option);
+	}
+
+	function renderError() {
+		if (Array.isArray(errors) && errors.length > 0) {
+			return <ErrorMessage errors={errors} />;
+		}
 	}
 
 	return (
@@ -49,6 +56,7 @@ function Select({
 					);
 				})}
 			</select>
+			{renderError()}
 		</div>
 	);
 }

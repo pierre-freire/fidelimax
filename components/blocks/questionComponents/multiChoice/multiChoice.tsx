@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { checkIfIncludes, returnHandledArray } from "@/util/util";
+import ErrorMessage from "../errorMessage";
 import styles from "./multiChoice.module.css";
 
 interface IMultiChoice {
@@ -10,7 +11,7 @@ interface IMultiChoice {
 	index: number;
 	onChangeAnswer: Function;
 	itens: [{ value: number; description: string }];
-	mandatory?: boolean;
+	errors?: { questionIndex: number; message: string }[];
 }
 
 function MultiChoice({
@@ -19,7 +20,7 @@ function MultiChoice({
 	itens,
 	index,
 	onChangeAnswer,
-	mandatory,
+	errors,
 }: IMultiChoice) {
 	const [values, setValues] = useState<number[]>(answerValue);
 
@@ -31,6 +32,12 @@ function MultiChoice({
 		const handledNewChoices = returnHandledArray(values, choice);
 		setValues(handledNewChoices);
 		onChangeAnswer(index, handledNewChoices);
+	}
+
+	function renderError() {
+		if (Array.isArray(errors) && errors.length > 0) {
+			return <ErrorMessage errors={errors} />;
+		}
 	}
 
 	return (
@@ -51,6 +58,7 @@ function MultiChoice({
 					);
 				})}
 			</ul>
+			{renderError()}
 		</div>
 	);
 }

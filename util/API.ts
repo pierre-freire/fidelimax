@@ -9,7 +9,6 @@ export async function getAllQuestions() {
   }, })
 
     const data = await response.json()
-    console.log('data: ', data)
     return data
   } catch (error) {
     console.log('Error: ', error)
@@ -23,7 +22,6 @@ export async function postError() {
   }, })
   
     const data = await response.json()
-    console.log(data)
     return data
   } catch (error) {
     console.log('Error: ', error)
@@ -35,7 +33,6 @@ export async function getError() {
     const response = await fetch(`${BASE_URL}/survey-post-error.json`, { method: 'GET' })
 
     const data = await response.json()
-    console.log(data)
     return data
   } catch (error) {
     console.log('Error: ', error)
@@ -47,7 +44,6 @@ export async function getSuccess() {
     const response = await fetch(`${BASE_URL}/survey-post-success.json`, { method: 'GET' })
 
     const data = await response.json()
-    console.log(data)
     return data
   } catch (error) {
     console.log('Error: ', error)

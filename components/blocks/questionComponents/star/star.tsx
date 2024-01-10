@@ -3,6 +3,7 @@
 import { useState } from "react";
 import GrayStar from "@/public/gray-star.svg";
 import GoldStar from "@/public/gold-star.svg";
+import ErrorMessage from "../errorMessage";
 import Image from "next/image";
 
 interface IStar {
@@ -10,22 +11,23 @@ interface IStar {
 	content: string;
 	index: number;
 	onChangeAnswer: Function;
-	mandatory?: boolean;
+	errors?: { questionIndex: number; message: string }[];
 }
 
-function Star({
-	answerValue,
-	content,
-	index,
-	onChangeAnswer,
-	mandatory,
-}: IStar) {
+function Star({ answerValue, content, index, onChangeAnswer, errors }: IStar) {
 	const [value, setValue] = useState<number>(answerValue);
 
 	function handleChoice(numberOfStars: number) {
 		setValue(numberOfStars);
 		onChangeAnswer(index, numberOfStars);
 	}
+
+	function renderError() {
+		if (Array.isArray(errors) && errors.length > 0) {
+			return <ErrorMessage errors={errors} />;
+		}
+	}
+
 	return (
 		<div>
 			<h3 className="text-slate-700 text-2xl font-extrabold mb-2">
@@ -50,6 +52,7 @@ function Star({
 					);
 				})}
 			</ul>
+			{renderError()}
 		</div>
 	);
 }

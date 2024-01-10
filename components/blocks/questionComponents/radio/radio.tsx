@@ -1,13 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import ErrorMessage from "../errorMessage";
 
 interface IRadio {
 	content: string;
 	answerValue: number | boolean;
 	index: number;
 	onChangeAnswer: Function;
-	mandatory?: boolean;
+	errors?: { questionIndex: number; message: string }[];
 	multi?: boolean;
 }
 
@@ -15,8 +16,9 @@ function Radio({
 	content,
 	answerValue,
 	index,
+	errors,
 	onChangeAnswer,
-	mandatory,
+
 	multi,
 }: IRadio) {
 	const [selected, setSelected] = useState<number | boolean>(answerValue);
@@ -25,6 +27,12 @@ function Radio({
 		if (arg === selected) return setSelected(arg);
 		setSelected(arg);
 		onChangeAnswer(index, arg);
+	}
+
+	function renderError() {
+		if (Array.isArray(errors) && errors.length > 0) {
+			return <ErrorMessage errors={errors} />;
+		}
 	}
 
 	function renderOptions() {
@@ -95,6 +103,7 @@ function Radio({
 			<ul className={`flex ${multi ? "justify-between" : "gap-8"}`}>
 				{renderOptions()}
 			</ul>
+			{renderError()}
 		</div>
 	);
 }

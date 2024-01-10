@@ -22,6 +22,8 @@ interface IQuestion {
 
 function Blocks() {
 	const [questions, setQuestions] = useState<IQuestion[]>([]);
+	const [errors, setErrors] =
+		useState<[{ questionIndex: number; message: string }]>();
 
 	useEffect(() => {
 		async function getQuestions() {
@@ -31,10 +33,6 @@ function Blocks() {
 
 		getQuestions();
 	}, []);
-
-	useEffect(() => {
-		console.log(questions);
-	}, [questions]);
 
 	function handleAnswerList(questionIndex: number, answer: string) {
 		let newQuestionAnswer = questions[questionIndex];
@@ -71,6 +69,39 @@ function Blocks() {
 		}
 	}
 
+	function sendAnswers() {
+		const errors: [{ questionIndex: number; message: string }] = questions.map(
+			(elm, index) => {
+				if (
+					(elm.mandatory === true &&
+						(elm.answerValue === "" ||
+							elm.answerValue === undefined ||
+							(Array.isArray(elm.answerValue) &&
+								elm.answerValue.length === 0))) ||
+					true
+				) {
+					return { questionIndex: index, message: "Campo obrigatório!" };
+				}
+			}
+		);
+
+		if (Array.isArray(errors) && errors.length > 0) {
+			return setErrors(errors);
+		}
+	}
+
+	function getFieldErrors(i: number) {
+		const fieldErrors = errors
+			?.filter((elm) => {
+				return elm?.questionIndex === i;
+			})
+			.filter((elm) => {
+				return elm !== undefined;
+			});
+
+		return fieldErrors;
+	}
+
 	function handleBlocks(index: number, elm: IQuestion) {
 		switch (elm.typeQuestion) {
 			case 1:
@@ -78,10 +109,10 @@ function Blocks() {
 					<Star
 						key={index}
 						index={index}
+						errors={getFieldErrors(index)}
 						answerValue={parseInt(elm.answerValue)}
 						content={elm.content}
 						onChangeAnswer={handleAnswerList}
-						mandatory={elm.mandatory}
 					/>
 				);
 			case 2:
@@ -92,6 +123,7 @@ function Blocks() {
 						onChangeAnswer={handleAnswerList}
 						multi={true}
 						answerValue={parseInt(elm.answerValue)}
+						errors={getFieldErrors(index)}
 						content={elm.content}
 					/>
 				);
@@ -102,6 +134,7 @@ function Blocks() {
 						index={index}
 						onChangeAnswer={handleAnswerList}
 						answerValue={elm.answerValue}
+						errors={getFieldErrors(index)}
 						content={elm.content}
 					/>
 				);
@@ -113,7 +146,7 @@ function Blocks() {
 						onChangeAnswer={handleAnswerList}
 						answerValue={elm.answerValue}
 						content={elm.content}
-						mandatory={elm.mandatory}
+						errors={getFieldErrors(index)}
 						itens={elm.itens}
 					/>
 				);
@@ -124,6 +157,7 @@ function Blocks() {
 						index={index}
 						onChangeAnswer={handleAnswerList}
 						multi={false}
+						errors={getFieldErrors(index)}
 						answerValue={!!elm.answerValue}
 						content={elm.content}
 					/>
@@ -140,7 +174,7 @@ function Blocks() {
 							answerValue={arrayOfNums}
 							content={elm.content}
 							itens={elm.itens}
-							mandatory={elm.mandatory}
+							errors={getFieldErrors(index)}
 						/>
 					);
 				} else {
@@ -152,7 +186,7 @@ function Blocks() {
 							answerValue={arrayOfNums}
 							content={elm.content}
 							itens={elm.itens}
-							mandatory={elm.mandatory}
+							errors={getFieldErrors(index)}
 						/>
 					);
 				}
@@ -175,7 +209,11 @@ function Blocks() {
 						})}
 
 						<div className="flex flex-wrap gap-2 justify-center">
-							<Button text="Enviar Fake Post" handleClick={postError} />
+							<Button
+								text="Enviar Fake Post"
+								handleClick={sendAnswers}
+								errors={errors}
+							/>
 							<Button text="Enviar Error" handleClick={getError} />
 							<Button text="Enviar Sucesso" handleClick={getSuccess} />
 						</div>

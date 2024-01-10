@@ -1,13 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import ErrorMessage from "../errorMessage";
 
 interface IText {
 	answerValue?: string;
 	content: string;
 	index: number;
 	onChangeAnswer: Function;
-	mandatory?: boolean;
+	errors?: { questionIndex: number; message: string }[];
 }
 
 function Text({
@@ -15,13 +16,19 @@ function Text({
 	content,
 	index,
 	onChangeAnswer,
-	mandatory,
+	errors,
 }: IText) {
 	const [value, setValue] = useState<string>(answerValue);
 
 	function handleChoice(text: string) {
 		setValue(text);
 		onChangeAnswer(index, text);
+	}
+
+	function renderError() {
+		if (Array.isArray(errors) && errors.length > 0) {
+			return <ErrorMessage errors={errors} />;
+		}
 	}
 
 	return (
@@ -33,6 +40,7 @@ function Text({
 				value={value}
 				onChange={(e) => handleChoice(e.target.value)}
 			/>
+			{renderError()}
 		</div>
 	);
 }

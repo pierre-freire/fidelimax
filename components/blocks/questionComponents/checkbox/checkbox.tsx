@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useId } from "react";
+import ErrorMessage from "../errorMessage";
 import { checkIfIncludes, returnHandledArray } from "@/util/util";
 
 interface ICheckbox {
@@ -9,7 +10,7 @@ interface ICheckbox {
 	index: number;
 	onChangeAnswer: Function;
 	itens: [{ value: number; description: string }];
-	mandatory?: boolean;
+	errors?: { questionIndex: number; message: string }[];
 }
 
 function Checkbox({
@@ -18,7 +19,7 @@ function Checkbox({
 	itens,
 	index,
 	onChangeAnswer,
-	mandatory,
+	errors,
 }: ICheckbox) {
 	const [values, setValues] = useState<number[]>(answerValue);
 
@@ -30,6 +31,12 @@ function Checkbox({
 		const handledNewChoices = returnHandledArray(values, choice);
 		setValues(handledNewChoices);
 		onChangeAnswer(index, handledNewChoices);
+	}
+
+	function renderError() {
+		if (Array.isArray(errors) && errors.length > 0) {
+			return <ErrorMessage errors={errors} />;
+		}
 	}
 
 	return (
@@ -47,6 +54,7 @@ function Checkbox({
 					);
 				})}
 			</ul>
+			{renderError()}
 		</li>
 	);
 }
