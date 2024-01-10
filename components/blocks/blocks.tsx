@@ -47,6 +47,30 @@ function Blocks() {
 		setQuestions(newQuestionArray);
 	}
 
+	function transformAnswerToArray(arg: string | string[] | number[]) {
+		if (typeof arg === "string") {
+			const newAnswer = arg.split("").map((str) => {
+				return parseInt(str, 10);
+			});
+
+			return newAnswer;
+		}
+
+		if (Array.isArray(arg)) {
+			if (typeof arg[0] === "string") {
+				const newAnswer = arg.map((str) => {
+					return Number(str);
+				});
+
+				return newAnswer;
+			}
+
+			if (typeof arg[0] === "number") {
+				return arg;
+			}
+		}
+	}
+
 	function handleBlocks(index: number, elm: IQuestion) {
 		switch (elm.typeQuestion) {
 			case 1:
@@ -65,6 +89,7 @@ function Blocks() {
 					<Radio
 						key={index}
 						index={index}
+						onChangeAnswer={handleAnswerList}
 						multi={true}
 						answerValue={parseInt(elm.answerValue)}
 						content={elm.content}
@@ -75,6 +100,7 @@ function Blocks() {
 					<Text
 						key={index}
 						index={index}
+						onChangeAnswer={handleAnswerList}
 						answerValue={elm.answerValue}
 						content={elm.content}
 					/>
@@ -84,6 +110,7 @@ function Blocks() {
 					<Select
 						key={index}
 						index={index}
+						onChangeAnswer={handleAnswerList}
 						answerValue={elm.answerValue}
 						content={elm.content}
 						mandatory={elm.mandatory}
@@ -95,21 +122,21 @@ function Blocks() {
 					<Radio
 						key={index}
 						index={index}
+						onChangeAnswer={handleAnswerList}
 						multi={false}
 						answerValue={!!elm.answerValue}
 						content={elm.content}
 					/>
 				);
 			case 6:
-				const arrayOfNums = elm.answerValue?.split("").map((str) => {
-					return parseInt(str, 10);
-				});
+				const arrayOfNums = transformAnswerToArray(elm.answerValue);
 
 				if (elm.horizontal) {
 					return (
 						<MultiChoice
 							key={index}
 							index={index}
+							onChangeAnswer={handleAnswerList}
 							answerValue={arrayOfNums}
 							content={elm.content}
 							itens={elm.itens}
@@ -121,6 +148,7 @@ function Blocks() {
 						<Checkbox
 							key={index}
 							index={index}
+							onChangeAnswer={handleAnswerList}
 							answerValue={arrayOfNums}
 							content={elm.content}
 							itens={elm.itens}

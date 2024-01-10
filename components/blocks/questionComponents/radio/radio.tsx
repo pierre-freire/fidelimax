@@ -6,16 +6,25 @@ interface IRadio {
 	content: string;
 	answerValue: number | boolean;
 	index: number;
+	onChangeAnswer: Function;
 	mandatory?: boolean;
 	multi?: boolean;
 }
 
-function Radio({ content, answerValue, mandatory, multi }: IRadio) {
+function Radio({
+	content,
+	answerValue,
+	index,
+	onChangeAnswer,
+	mandatory,
+	multi,
+}: IRadio) {
 	const [selected, setSelected] = useState<number | boolean>(answerValue);
 
 	function handleChoice(arg: number | boolean) {
 		if (arg === selected) return setSelected(arg);
 		setSelected(arg);
+		onChangeAnswer(index, arg);
 	}
 
 	function renderOptions() {

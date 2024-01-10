@@ -6,6 +6,7 @@ interface ISelect {
 	answerValue: string;
 	content: string;
 	index: number;
+	onChangeAnswer: Function;
 	itens: [
 		{
 			description: string;
@@ -15,15 +16,27 @@ interface ISelect {
 	mandatory?: boolean;
 }
 
-function Select({ answerValue = "", content, itens, mandatory }: ISelect) {
-	const [value, setValue] = useState(answerValue);
+function Select({
+	answerValue = "",
+	content,
+	itens,
+	index,
+	onChangeAnswer,
+	mandatory,
+}: ISelect) {
+	const [value, setValue] = useState<string>(answerValue);
+
+	function handleChoice(option: string) {
+		setValue(option);
+		onChangeAnswer(index, option);
+	}
 
 	return (
 		<div className="w-full">
 			<select
 				className="outline outline-offset-2 outline-1 rounded-md p-3 cursor-pointer w-full"
 				value={value}
-				onChange={(e) => setValue(e.target.value)}
+				onChange={(e) => handleChoice(e.target.value)}
 			>
 				<option value="" disabled hidden>
 					{content}

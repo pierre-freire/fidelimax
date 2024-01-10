@@ -22,7 +22,7 @@ function Star({
 }: IStar) {
 	const [value, setValue] = useState<number>(answerValue);
 
-	function changeAnswer(numberOfStars: number) {
+	function handleChoice(numberOfStars: number) {
 		setValue(numberOfStars);
 		onChangeAnswer(index, numberOfStars);
 	}
@@ -38,7 +38,7 @@ function Star({
 						<li
 							key={i}
 							className="cursor-pointer"
-							onClick={() => changeAnswer(elm)}
+							onClick={() => handleChoice(elm)}
 						>
 							<Image
 								src={i >= value ? GrayStar : GoldStar}

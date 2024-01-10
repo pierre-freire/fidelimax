@@ -7,19 +7,29 @@ interface ICheckbox {
 	content: string;
 	answerValue: number[];
 	index: number;
+	onChangeAnswer: Function;
 	itens: [{ value: number; description: string }];
 	mandatory?: boolean;
 }
 
-function Checkbox({ content, answerValue, itens, mandatory }: ICheckbox) {
+function Checkbox({
+	content,
+	answerValue,
+	itens,
+	index,
+	onChangeAnswer,
+	mandatory,
+}: ICheckbox) {
 	const [values, setValues] = useState<number[]>(answerValue);
 
 	function isChecked(arg: number) {
 		return checkIfIncludes(values, arg);
 	}
 
-	function handleValues(arg: number) {
-		setValues(returnHandledArray(values, arg));
+	function handleValues(choice: number) {
+		const handledNewChoices = returnHandledArray(values, choice);
+		setValues(handledNewChoices);
+		onChangeAnswer(index, handledNewChoices);
 	}
 
 	return (

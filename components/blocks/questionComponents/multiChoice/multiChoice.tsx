@@ -8,19 +8,29 @@ interface IMultiChoice {
 	content: string;
 	answerValue: number[];
 	index: number;
+	onChangeAnswer: Function;
 	itens: [{ value: number; description: string }];
 	mandatory?: boolean;
 }
 
-function MultiChoice({ content, answerValue, itens, mandatory }: IMultiChoice) {
+function MultiChoice({
+	content,
+	answerValue,
+	itens,
+	index,
+	onChangeAnswer,
+	mandatory,
+}: IMultiChoice) {
 	const [values, setValues] = useState<number[]>(answerValue);
 
-	function isChecked(arg: number) {
-		return checkIfIncludes(values, arg);
+	function isChecked(choices: number) {
+		return checkIfIncludes(values, choices);
 	}
 
-	function handleValues(arg: number) {
-		setValues(returnHandledArray(values, arg));
+	function handleValues(choice: number) {
+		const handledNewChoices = returnHandledArray(values, choice);
+		setValues(handledNewChoices);
+		onChangeAnswer(index, handledNewChoices);
 	}
 
 	return (
