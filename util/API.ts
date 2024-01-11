@@ -15,16 +15,27 @@ export async function getAllQuestions() {
   }
 }
 
-export async function postError() {
+export async function fakePost(req: { 	content: string;
+	typeQuestion: number;
+	answerValue: string;
+	mandatory?: boolean;
+	horizontal?: boolean;
+	itens: [{ description: string; value: number }] }[]) {
   try {
-    const response = await fetch(`https://jsonplaceholder.typicode.com/posts/`, { method: 'GET',  headers: {
-      'Accept': 'application/json',
-  }, })
+    const response = await fetch(`https://jsonplaceholder.typicode.com/posts/`, { 
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(req)
+    })
   
     const data = await response.json()
     return data
   } catch (error) {
     console.log('Error: ', error)
+    return error
   }
 }
 

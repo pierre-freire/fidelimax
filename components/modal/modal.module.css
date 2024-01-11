@@ -1,0 +1,6 @@
+.container {
+	background-color: rgba(25, 32, 45, 0.75);
+	top: calc(50% - 100px);
+	width: 400px;
+	left: calc(50% - 200px);
+}

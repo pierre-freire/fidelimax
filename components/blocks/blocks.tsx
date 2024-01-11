@@ -9,7 +9,8 @@ import Select from "./questionComponents/select";
 import MultiChoice from "./questionComponents/multiChoice";
 import Checkbox from "./questionComponents/checkbox";
 import Button from "./questionComponents/button";
-import { getAllQuestions, postError, getError, getSuccess } from "@/util/API";
+import Modal from "../modal";
+import { getAllQuestions, fakePost, getError, getSuccess } from "@/util/API";
 
 interface IQuestion {
 	content: string;
@@ -22,6 +23,11 @@ interface IQuestion {
 
 function Blocks() {
 	const [questions, setQuestions] = useState<IQuestion[]>([]);
+	const [modalInfo, setModalInfo] = useState<{
+		title: string;
+		message: string;
+		show: boolean;
+	}>({ title: "", message: "", show: false });
 	const [errors, setErrors] =
 		useState<[{ questionIndex: number; message: string }]>();
 
@@ -69,9 +75,9 @@ function Blocks() {
 		}
 	}
 
-	function sendAnswers() {
-		const errors: [{ questionIndex: number; message: string }] = questions.map(
-			(elm, index) => {
+	async function sendAnswers() {
+		const errors: [{ questionIndex: number; message: string }] = questions
+			.map((elm, index) => {
 				if (
 					elm.mandatory === true &&
 					(elm.answerValue === "" ||
@@ -80,12 +86,41 @@ function Blocks() {
 				) {
 					return { questionIndex: index, message: "Campo obrigatório!" };
 				}
-			}
-		);
+			})
+			.filter((elm) => {
+				return elm !== undefined;
+			});
+
+		setErrors(errors);
 
 		if (Array.isArray(errors) && errors.length > 0) {
-			return setErrors(errors);
+			return;
 		}
+
+		const data = fakePost(questions);
+		console.log(data);
+
+		setModalInfo({
+			title: "Erro",
+			message:
+				"Ocorreu um erro enquanto os dados estavam sendo enviados, tente novamente.",
+			show: true,
+		});
+	}
+
+	async function sendError() {
+		const res = await getError();
+		setModalInfo({ title: "Erro", message: res.error, show: true });
+	}
+
+	async function sendFakeSuccess() {
+		const res = await getSuccess();
+
+		setModalInfo({
+			title: "Sucesso",
+			message: "Sucesso ao enviar os dados.",
+			show: true,
+		});
 	}
 
 	function getFieldErrors(i: number) {
@@ -193,6 +228,10 @@ function Blocks() {
 		}
 	}
 
+	function closeModalFunction() {
+		setModalInfo({ title: "", message: "", show: false });
+	}
+
 	return (
 		<div className="max-w-xl">
 			<h2 className="font-bold text-white text-4xl mb-4">
@@ -212,14 +251,20 @@ function Blocks() {
 								handleClick={sendAnswers}
 								errors={errors}
 							/>
-							<Button text="Enviar Error" handleClick={getError} />
-							<Button text="Enviar Sucesso" handleClick={getSuccess} />
+							<Button text="Enviar Error" handleClick={sendError} />
+							<Button text="Enviar Sucesso" handleClick={sendFakeSuccess} />
 						</div>
 					</>
 				) : (
 					<Loading />
 				)}
 			</form>
+			<Modal
+				title={modalInfo.title}
+				message={modalInfo.message}
+				show={modalInfo.show}
+				closeFunction={closeModalFunction}
+			/>
 		</div>
 	);
 }
