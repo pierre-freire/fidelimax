@@ -5,7 +5,9 @@ import ErrorMessage from "../errorMessage";
 interface IButton {
 	handleClick: Function;
 	text: string;
-	errors?: { questionIndex: number; message: string }[] | undefined;
+	errors?:
+		| ({ questionIndex: number; message: string } | undefined)[]
+		| undefined;
 }
 
 function Button({ handleClick, text, errors }: IButton) {

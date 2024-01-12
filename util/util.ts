@@ -1,9 +1,10 @@
-export function checkIfIncludes(arr: any[], args: any) {
+export function checkIfIncludes(arr: any[] | undefined, args: any) {
+	if(typeof arr === 'undefined') return false
 	if(arr === undefined) return false
 	return arr.includes(args);
 }
 
-export function returnHandledArray(arr: any[], args: any) {
+export function returnHandledArray(arr: any[] | undefined, args: any) {
 	if(arr === undefined) {
 		return [args]
 	}

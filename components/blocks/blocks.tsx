@@ -29,7 +29,7 @@ function Blocks() {
 		show: boolean;
 	}>({ title: "", message: "", show: false });
 	const [errors, setErrors] =
-		useState<[{ questionIndex: number; message: string }]>();
+		useState<({ questionIndex: number; message: string } | undefined)[]>();
 
 	useEffect(() => {
 		async function getQuestions() {
@@ -76,20 +76,21 @@ function Blocks() {
 	}
 
 	async function sendAnswers() {
-		const errors: [{ questionIndex: number; message: string }] = questions
-			.map((elm, index) => {
-				if (
-					elm.mandatory === true &&
-					(elm.answerValue === "" ||
-						elm.answerValue === undefined ||
-						(Array.isArray(elm.answerValue) && elm.answerValue.length === 0))
-				) {
-					return { questionIndex: index, message: "Campo obrigatório!" };
-				}
-			})
-			.filter((elm) => {
-				return elm !== undefined;
-			});
+		const errors: ({ questionIndex: number; message: string } | undefined)[] =
+			questions
+				?.map((elm, index) => {
+					if (
+						elm.mandatory === true &&
+						(elm.answerValue === "" ||
+							elm.answerValue === undefined ||
+							(Array.isArray(elm.answerValue) && elm.answerValue.length === 0))
+					) {
+						return { questionIndex: index, message: "Campo obrigatório!" };
+					}
+				})
+				.filter((elm) => {
+					return elm !== undefined;
+				});
 
 		setErrors(errors);
 

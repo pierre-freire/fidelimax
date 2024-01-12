@@ -1,5 +1,5 @@
 interface IErrorMessage {
-	errors: { message: string; questionIndex: number }[];
+	errors: ({ message: string; questionIndex: number } | undefined)[];
 }
 
 function ErrorMessage({ errors }: IErrorMessage) {

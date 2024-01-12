@@ -7,11 +7,11 @@ import styles from "./multiChoice.module.css";
 
 interface IMultiChoice {
 	content: string;
-	answerValue: number[];
+	answerValue: number[] | string[] | undefined;
 	index: number;
 	onChangeAnswer: Function;
 	itens: [{ value: number; description: string }];
-	errors?: { questionIndex: number; message: string }[];
+	errors?: ({ questionIndex: number; message: string } | undefined)[];
 }
 
 function MultiChoice({
@@ -22,7 +22,9 @@ function MultiChoice({
 	onChangeAnswer,
 	errors,
 }: IMultiChoice) {
-	const [values, setValues] = useState<number[]>(answerValue);
+	const [values, setValues] = useState<number[] | string[] | undefined>(
+		answerValue
+	);
 
 	function isChecked(choices: number) {
 		return checkIfIncludes(values, choices);

@@ -6,11 +6,11 @@ import { checkIfIncludes, returnHandledArray } from "@/util/util";
 
 interface ICheckbox {
 	content: string;
-	answerValue: number[];
+	answerValue: number[] | string[] | undefined;
 	index: number;
 	onChangeAnswer: Function;
 	itens: [{ value: number; description: string }];
-	errors?: { questionIndex: number; message: string }[];
+	errors?: ({ questionIndex: number; message: string } | undefined)[];
 }
 
 function Checkbox({
@@ -21,7 +21,9 @@ function Checkbox({
 	onChangeAnswer,
 	errors,
 }: ICheckbox) {
-	const [values, setValues] = useState<number[]>(answerValue);
+	const [values, setValues] = useState<number[] | string[] | undefined>(
+		answerValue
+	);
 
 	function isChecked(arg: number) {
 		return checkIfIncludes(values, arg);

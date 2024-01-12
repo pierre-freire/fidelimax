@@ -11,7 +11,7 @@ interface IStar {
 	content: string;
 	index: number;
 	onChangeAnswer: Function;
-	errors?: { questionIndex: number; message: string }[];
+	errors?: ({ questionIndex: number; message: string } | undefined)[];
 }
 
 function Star({ answerValue, content, index, onChangeAnswer, errors }: IStar) {

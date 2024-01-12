@@ -8,7 +8,7 @@ interface IRadio {
 	answerValue: number | boolean;
 	index: number;
 	onChangeAnswer: Function;
-	errors?: { questionIndex: number; message: string }[];
+	errors?: ({ questionIndex: number; message: string } | undefined)[];
 	multi?: boolean;
 }
 

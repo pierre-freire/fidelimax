@@ -14,7 +14,7 @@ interface ISelect {
 			value: number;
 		}
 	];
-	errors?: { questionIndex: number; message: string }[];
+	errors?: ({ questionIndex: number; message: string } | undefined)[];
 }
 
 function Select({
